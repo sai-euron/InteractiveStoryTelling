@@ -7,6 +7,7 @@ from fastapi import FastAPI, HTTPException
 
 from src.prompts import *
 from src.logger import logger
+from src.exceptions import DetailedHTTPException
 
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -47,7 +48,7 @@ async def get_story(request: StoryIntroduction):
         return story_line
     except Exception as e:
         logger.error(str(e))
-        raise HTTPException(status_code=500, detail=str(e))
+        raise DetailedHTTPException(status_code=500, detail=str(e))
 
 class StoryTelling(BaseModel):
     story_title: str
@@ -63,7 +64,7 @@ async def get_story(request: StoryTelling):
         return story
     except Exception as e:
         logger.error(str(e))
-        raise HTTPException(status_code=500, detail=str(e))
+        raise DetailedHTTPException(status_code=500, detail=str(e))
     
 
 if __name__ == "__main__":
